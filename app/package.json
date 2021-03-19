@@ -1,14 +1,13 @@
 {
-  "name": "hello_world",
+  "name": "visitor_count",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
+  "description": "NodeJS app for counting visitor count",
   "main": "app.js",
   "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
   "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
-    "@types/aws-lambda": "^8.10.72",
-    "axios": "^0.21.1"
+    "@types/aws-lambda": "^8.10.72"
   },
   "scripts": {
     "test": "mocha tests/unit/",
