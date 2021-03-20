@@ -1,6 +1,7 @@
 import { APIGatewayAuthorizerHandler } from "aws-lambda";
 import generatePolicy from "./generatePolicy";
-import hasCorrectParams from "./hasCorrectParams";
+import isApiRequestAuthEvent from "./isApiRequestAuthEvent";
+
 import isHashValid from "./isHashValid";
 import isTimeValid from "./isTimeValid";
 
@@ -9,11 +10,17 @@ export const handler: APIGatewayAuthorizerHandler = (
   context,
   callback
 ) => {
-  if (!hasCorrectParams(event)) {
+  console.log(event);
+  if (!isApiRequestAuthEvent(event) || !event.queryStringParameters) {
     callback("Unauthorized"); // Return a 401 Unauthorized response
     return;
   }
-  const { time, hash } = event;
+
+  const { time, hash } = event.queryStringParameters;
+  if (!time || !hash) {
+    callback("Unauthorized"); // Return a 401 Unauthorized response
+    return;
+  }
   if (!isTimeValid(time) || !isHashValid(time, hash)) {
     callback("Unauthorized"); // Return a 401 Unauthorized response
     return;

@@ -13,14 +13,24 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
+      Cors:
+        AllowMethods: '''POST,OPTIONS'''
+        AllowHeaders: '''content-type'', ''authorization'''
+        AllowOrigin: '''*'''
+        AllowCredentials: '''*'''
       Auth:
-        DefaultAuthorizer: LambdaTokenAuthorizer
+        DefaultAuthorizer: LambdaAuthorizer
         Authorizers:
-          LambdaTokenAuthorizer:
+          LambdaAuthorizer:
+            FunctionPayloadType: REQUEST
             FunctionArn:
               Fn::GetAtt:
               - AuthFunction
               - Arn
+            Identity:
+              QueryStrings:
+              - time
+              - hash
       MethodSettings:
       - HttpMethod: '*'
         ResourcePath: /*
