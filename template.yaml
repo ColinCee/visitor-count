@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   visitor-count
 
-  Sample SAM Template for visitor-count
+  Stack for tracking visitor count
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -44,12 +44,14 @@ Resources:
             RestApiId: !Ref Api
             Path: /visitor-count
             Method: post
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: visitor_count
     Metadata:
       DockerTag: nodejs14.x-v1
       DockerContext: ./app
       Dockerfile: Dockerfile
-    Policies:
-      - AmazonDynamoDBFullAccess
+
       
   VisitorCountTable:
     Type: AWS::Serverless::SimpleTable

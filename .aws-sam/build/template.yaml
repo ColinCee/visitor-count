@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: 'visitor-count
 
-  Sample SAM Template for visitor-count
+  Stack for tracking visitor count
 
   '
 Globals:
@@ -47,13 +47,14 @@ Resources:
               Ref: Api
             Path: /visitor-count
             Method: post
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: visitor_count
       ImageUri: visitorcountfunction:nodejs14.x-v1
     Metadata:
       DockerTag: nodejs14.x-v1
       DockerContext: ./app
       Dockerfile: Dockerfile
-    Policies:
-    - AmazonDynamoDBFullAccess
   VisitorCountTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
