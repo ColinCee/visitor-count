@@ -9,7 +9,6 @@ type CorrectParams = APIGatewayTokenAuthorizerEvent & {
 };
 export default (event: APIGatewayAuthorizerEvent): event is CorrectParams => {
   return (
-    Object.prototype.hasOwnProperty.call(event, "authorizationToken") &&
     Object.prototype.hasOwnProperty.call(event, "time") &&
     Object.prototype.hasOwnProperty.call(event, "hash")
   );
