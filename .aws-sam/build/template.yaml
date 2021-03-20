@@ -41,7 +41,7 @@ Resources:
             RestApiId:
               Ref: Api
             Path: /visitor-count
-            Method: get
+            Method: post
       ImageUri: visitorcountfunction:nodejs14.x-v1
     Metadata:
       DockerTag: nodejs14.x-v1

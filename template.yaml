@@ -38,7 +38,7 @@ Resources:
           Properties:
             RestApiId: !Ref Api
             Path: /visitor-count
-            Method: get
+            Method: post
     Metadata:
       DockerTag: nodejs14.x-v1
       DockerContext: ./app
