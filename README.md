@@ -1,10 +1,9 @@
 # visitor-count
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+Serverless application to track visitor count for https://colincheung.dev
 
-- hello-world - Code for the application's Lambda function and Project Dockerfile.
-- events - Invocation events that you can use to invoke the function.
-- hello-world/tests - Unit tests for the application code.
+- app - The visitor count app
+- auth the authorization lambda code
 - template.yaml - A template that defines the application's AWS resources.
 
 The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
@@ -67,12 +66,12 @@ visitor-count$ curl http://localhost:3000/
 The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
 
 ```yaml
-      Events:
-        HelloWorld:
+        VisitorCount:
           Type: Api
           Properties:
-            Path: /hello
-            Method: get
+            RestApiId: !Ref Api
+            Path: /visitor-count
+            Method: post
 ```
 
 ## Add a resource to your application
@@ -89,16 +88,6 @@ visitor-count$ sam logs -n HelloWorldFunction --stack-name visitor-count --tail
 ```
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
-
-## Unit tests
-
-Tests are defined in the `hello-world/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests from your local machine.
-
-```bash
-visitor-count$ cd hello-world
-hello-world$ npm install
-hello-world$ npm run test
-```
 
 ## Cleanup
 
