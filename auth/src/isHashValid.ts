@@ -8,6 +8,5 @@ export default (time: number, hash: string) => {
     .update(data)
     .digest("base64");
 
-  console.log(producedHash);
   return producedHash === hash;
 };
