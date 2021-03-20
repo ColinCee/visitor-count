@@ -7,15 +7,14 @@
   "author": "SAM CLI",
   "license": "MIT",
   "dependencies": {
-    "@types/aws-lambda": "^8.10.72",
-    "dayjs": "^1.10.4",
-    "fs-extra": "^9.1.0"
+    "dayjs": "^1.10.4"
   },
   "scripts": {
     "test": "mocha tests/unit/",
     "build": "tsc"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.72",
     "@types/node": "^14.14.35",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",

@@ -1,40 +1,23 @@
-import { APIGatewayAuthorizerEvent, APIGatewayAuthorizerHandler, APIGatewayAuthorizerResult, APIGatewayTokenAuthorizerEvent } from 'aws-lambda';
+import { APIGatewayAuthorizerHandler } from "aws-lambda";
+import generatePolicy from "./generatePolicy";
+import hasCorrectParams from "./hasCorrectParams";
+import isHashValid from "./isHashValid";
+import isTimeValid from "./isTimeValid";
 
-export const handler: APIGatewayAuthorizerHandler =  function(event, context, callback) {
-  console.log(event)
-  if (!isTokenEvent(event)) {
-    callback("Unauthorized");   // Return a 401 Unauthorized response
-    return
+export const handler: APIGatewayAuthorizerHandler = (
+  event,
+  context,
+  callback
+) => {
+  if (!hasCorrectParams(event)) {
+    callback("Unauthorized"); // Return a 401 Unauthorized response
+    return;
+  }
+  const { time, hash } = event;
+  if (!isTimeValid(time) || !isHashValid(time, hash)) {
+    callback("Unauthorized"); // Return a 401 Unauthorized response
+    return;
   }
 
-  const token = event.authorizationToken
-  switch (token) {
-      case 'allow':
-          callback(null, generatePolicy('user', 'Allow', event.methodArn));
-          break;
-      case 'unauthorized':
-          callback("Unauthorized");   // Return a 401 Unauthorized response
-          break;
-      default:
-          callback("Error: Invalid token"); // Return a 500 Invalid token response
-  }
+  callback(null, generatePolicy("user", "Allow", event.methodArn));
 };
-
-const isTokenEvent = (event: APIGatewayAuthorizerEvent): event is APIGatewayTokenAuthorizerEvent => {
-  return event.hasOwnProperty("authorizationToken")
-}
-
-const generatePolicy = function(principalId: string, effect: string, resource: string): APIGatewayAuthorizerResult {
-  return {
-    principalId: principalId,
-    policyDocument: {
-      Version: '2012-10-17',
-      Statement: [
-        {"Action":  'execute-api:Invoke',
-        Effect: effect,
-        Resource: resource
-       }
-      ]
-    }
-  };
-}
