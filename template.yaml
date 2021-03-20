@@ -20,6 +20,11 @@ Resources:
         Authorizers:
           LambdaTokenAuthorizer:
             FunctionArn: !GetAtt AuthFunction.Arn
+      MethodSettings:
+        - HttpMethod: '*'
+          ResourcePath: '/*'
+          ThrottlingBurstLimit: 5
+          ThrottlingRateLimit: 2
   AuthFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -43,6 +48,9 @@ Resources:
       DockerTag: nodejs14.x-v1
       DockerContext: ./app
       Dockerfile: Dockerfile
+    Policies:
+      - AmazonDynamoDBFullAccess
+      
   VisitorCountTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
