@@ -6,6 +6,11 @@ export const handler: APIGatewayProxyHandler = async () => {
   await PutVisitorCount(visitorCount + 1);
   return {
     statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,GET",
+    },
     body: JSON.stringify({ count: visitorCount + 1 }),
   };
 };
