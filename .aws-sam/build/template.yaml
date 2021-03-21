@@ -14,10 +14,14 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: '''POST,OPTIONS'''
-        AllowHeaders: '''content-type'', ''authorization'''
+        AllowMethods: '''GET,OPTIONS'''
+        AllowHeaders: '''Content-Type,X-Amz-Date,X-Amz-Security-Token,Authorization,X-Api-Key,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers'''
         AllowOrigin: '''*'''
-        AllowCredentials: '''*'''
+      GatewayResponses:
+        DEFAULT_4XX:
+          ResponseParameters:
+            Headers:
+              Access-Control-Allow-Origin: '''*'''
       Auth:
         DefaultAuthorizer: LambdaAuthorizer
         Authorizers:
@@ -56,7 +60,7 @@ Resources:
             RestApiId:
               Ref: Api
             Path: /visitor-count
-            Method: post
+            Method: GET
       Policies:
       - DynamoDBCrudPolicy:
           TableName: visitor_count
