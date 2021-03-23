@@ -31,9 +31,13 @@ Resources:
             FunctionPayloadType: REQUEST
             FunctionArn: !GetAtt AuthFunction.Arn
             Identity:
+              ReauthorizeEvery: 0
               QueryStrings:
                 - time
                 - hash
+              Header:
+                - Authorization
+              
       MethodSettings:
         - HttpMethod: '*'
           ResourcePath: '/*'

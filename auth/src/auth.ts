@@ -4,6 +4,7 @@ import isApiRequestAuthEvent from "./isApiRequestAuthEvent";
 
 import isHashValid from "./isHashValid";
 import isTimeValid from "./isTimeValid";
+import secret from "./secret.json";
 
 export const handler: APIGatewayAuthorizerHandler = (
   event,
@@ -13,6 +14,12 @@ export const handler: APIGatewayAuthorizerHandler = (
   console.log(event);
   if (!isApiRequestAuthEvent(event) || !event.queryStringParameters) {
     callback("Unauthorized"); // Return a 401 Unauthorized response
+    return;
+  }
+
+  const token = event.headers?.Authorization;
+  if (event.httpMethod !== "OPTIONS" && token !== secret.token) {
+    callback("Invalid Auth"); // Return a 401 Unauthorized response
     return;
   }
 
